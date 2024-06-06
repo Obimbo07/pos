@@ -16,7 +16,7 @@
 
   <p>
     <strong>Services:</strong>
-    <%= worker.services %>
+    <%= worker.service_id.present? ? worker.service_id: "No Service Assigned" %>
   </p>
 
 </div>
