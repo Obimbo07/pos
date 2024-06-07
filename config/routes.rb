@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :inventories
   resources :services
   resources :workers
   devise_for :admins

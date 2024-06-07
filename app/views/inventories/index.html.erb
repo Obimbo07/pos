@@ -1,0 +1,33 @@
+<div class="w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+  <% content_for :title, "Inventories" %>
+
+  <div class="flex justify-between items-center mb-5">
+    <h1 class="font-bold text-4xl">Inventories</h1>
+    <%= link_to "New inventory", new_inventory_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+  </div>
+
+  <div id="inventories" class="overflow-x-auto">
+    <table class="min-w-full bg-white shadow-md rounded-lg">
+      <thead>
+        <tr>
+          <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Name</th>
+          <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Price</th>
+          <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Bought</th>
+          <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Supplied</th>
+          <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Supplier Name</th>
+          <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">In Stock</th>
+          <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @inventories.each do |inventory| %>
+          <%= render inventory %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
