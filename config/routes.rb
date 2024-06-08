@@ -1,13 +1,18 @@
 Rails.application.routes.draw do
+  devise_for :workers, controllers: { registrations: 'workers/registrations' }
+  # Resource routes for inventories, services, and workers
+  resources :inventories
   resources :services
-  resources :workers
+  resources :workers, only: [:index, :show, :edit, :update, :destroy] # Avoid conflicts with Devise routes
+
+  # Devise routes for admins
   devise_for :admins
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  root "workers#index"
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+
+  # Root route
+  root "worker_dashboard#index"
+
+  # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  # Other routes can be defined here
 end
