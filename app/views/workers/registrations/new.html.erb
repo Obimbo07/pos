@@ -9,6 +9,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :service_ids, "Services" %>
+    <%= f.collection_select :service_ids, @services, :id, :name, prompt: "Select Services", multiple: true %>
+  </div>
+
+  <div class="field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>

@@ -7,7 +7,7 @@ class WorkersController < ApplicationController
     @workers = Worker.includes(:services).all
     @inventories = Inventory.all
     # service = Service.includes(:workers).all
-    @services =Service.all
+    @services = Service.all
   end
 
   # GET /workers/1 or /workers/1.json

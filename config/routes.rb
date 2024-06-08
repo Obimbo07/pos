@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :workers
+  devise_for :workers, controllers: { registrations: 'workers/registrations' }
   # Resource routes for inventories, services, and workers
   resources :inventories
   resources :services

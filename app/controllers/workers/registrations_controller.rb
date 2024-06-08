@@ -1,6 +1,20 @@
 # frozen_string_literal: true
 
 class Workers::RegistrationsController < Devise::RegistrationsController
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :load_services, only: [:new, :create]
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:service_ids => []])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :phone, :service_ids => []])
+  end
+
+  def load_services
+    @services = Service.all
+  end
+
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
@@ -59,4 +73,5 @@ class Workers::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+
 end
