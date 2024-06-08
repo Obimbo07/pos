@@ -1,3 +1,4 @@
 class Service < ApplicationRecord
-    belongs_to :service, optional: true
+  has_many :workers
+  has_and_belongs_to_many :workers
 end

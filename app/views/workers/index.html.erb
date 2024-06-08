@@ -25,7 +25,7 @@
               <td class="py-3 px-5"><%= worker.name %></td>
               <td class="py-3 px-5"><%= worker.email %></td>
               <td class="py-3 px-5"><%= worker.phone %></td>
-              <td class="py-3 px-5"><%= worker.services %></td>
+              <td class="py-3 px-5"><%=  worker.service ? worker.service.name : 'No service assigned'  %></td>
               <td class="py-3 px-5">
                 <%= link_to "Show", worker, class: "ml-2 rounded-lg py-1 px-3 bg-gray-100 inline-block font-medium" %>
                 <%= link_to "Edit", edit_worker_path(worker), class: "ml-2 rounded-lg py-1 px-3 bg-blue-100 text-blue-600 inline-block font-medium" %>
@@ -36,7 +36,7 @@
         </tbody>
       </table>
     </div>
-    <%= link_to "New worker", new_worker_path, class: "mt-5 inline-block rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
+    <%= link_to "New worker", worker_registration_path, class: "mt-5 inline-block rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
   </div>
 
   <!-- Inventories Table -->
@@ -72,6 +72,7 @@
       <table class="min-w-full bg-white shadow-md rounded-lg">
         <thead>
           <tr>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">id</th>
             <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Name</th>
             <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Price</th>
             <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Commission</th>
@@ -81,6 +82,7 @@
         <tbody>
           <% @services.each do |service| %>
             <tr class="border-t">
+              <td class="py-3 px-5"><%= service.id %></td>
               <td class="py-3 px-5"><%= service.name %></td>
               <td class="py-3 px-5"><%= service.price %></td>
               <td class="py-3 px-5"><%= service.commission %></td>

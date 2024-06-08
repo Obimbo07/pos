@@ -4,9 +4,10 @@ class WorkersController < ApplicationController
 
   # GET /workers or /workers.json
   def index
-    @workers = Worker.all
+    @workers = Worker.includes(:services).all
     @inventories = Inventory.all
-    @services = Service.all
+    # service = Service.includes(:workers).all
+    @services =Service.all
   end
 
   # GET /workers/1 or /workers/1.json
