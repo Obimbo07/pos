@@ -3,12 +3,12 @@ Rails.application.routes.draw do
   
   resources :inventories
   resources :services
-  resources :bookings, only: [:new, :create]  # Ensure bookings route for new and create actions
+  resources :bookings, only: [:index, :new, :create]
   resources :workers, only: [:index, :show, :edit, :update, :destroy]
 
   devise_for :admins
 
-  root "worker_dashboard#index"
+  root "home#index"
 
   get "up" => "rails/health#show", as: :rails_health_check
   get "home" => "home#index"
