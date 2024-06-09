@@ -26,9 +26,9 @@
     <%= form.number_field :phone %>
   </div>
 
-  <div>
-    <%= form.label :services, style: "display: block" %>
-    <%= form.text_field :services %>
+  <div class="field">
+    <%= form.label :service_id %>
+    <%= form.collection_select :service_id, @services, :id, :name, prompt: "Select a Service" %>
   </div>
 
   <div>

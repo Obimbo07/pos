@@ -1,22 +1,25 @@
-<div id="<%= dom_id worker %>">
-  <p>
-    <strong>Name:</strong>
-    <%= worker.name %>
-  </p>
-
-  <p>
-    <strong>Email:</strong>
-    <%= worker.email %>
-  </p>
-
-  <p>
-    <strong>Phone:</strong>
-    <%= worker.phone %>
-  </p>
-
-  <p>
-    <strong>Services:</strong>
-    <%= worker.services %>
-  </p>
-
+<div id="<%= dom_id(worker) %>" class="p-4 bg-gray-100 rounded-lg shadow-md">
+  <table class="min-w-full divide-y divide-gray-200">
+    <tbody class=" divide-y divide-gray-200">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+        <td class="px-6 py-3 text-sm text-gray-900"><%= worker.name %></td>
+      </tr>
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+        <td class="px-6 py-3 text-sm text-gray-900"><%= worker.email %></td>
+      </tr>
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+        <td class="px-6 py-3 text-sm text-gray-900"><%= worker.phone %></td>
+      </tr>
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Services</th>
+        <td class="px-6 py-3 text-sm text-gray-900"><% @worker.services.each do |service| %>
+        <li><%= service.name %> - <%= number_to_currency(service.price) %></li>
+        <% end %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

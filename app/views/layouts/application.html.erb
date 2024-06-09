@@ -1,18 +1,93 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Pos</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>Pos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+  <style>
+    /* Custom CSS for hamburger menu */
+    .menu-toggle {
+      display: none; /* Hide the hamburger menu by default */
+    }
+    @media (max-width: 640px) { /* Show the hamburger menu on small screens */
+      .menu-toggle {
+        display: block;
+      }
+      .nav-items {
+        display: none; /* Hide the navigation items by default on small screens */
+      }
+      .nav-open .nav-items {
+        display: block; /* Show the navigation items when the nav-open class is applied */
+      }
+    }
+  </style>
+</head>
 
-  <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+<body class="bg-gray-100">
+  <!-- Hamburger menu button -->
+  <button class="menu-toggle sm:hidden absolute top-4 right-4">
+    <svg class="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path class="menu-icon" fill-rule="evenodd" d="M3 18h18v-2H3v2zM3 13h18v-2H3v2zM3 6v2h18V6H3z"/>
+    </svg>
+  </button>
+
+  <!-- Navigation bar -->
+  <nav class="bg-green-300 sm:bg-green-500 p-4 nav-items">
+    <ul class="flex flex-col space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 justify-center">
+      <% if worker_signed_in? %>
+        <li>
+          <%= link_to 'Worker Dashboard', root_path, class: "bg-yellow-500 text-black hover:bg-yellow-600 font-semibold py-2 px-4 rounded shadow" %>
+        </li>
+        <li>
+          <%= link_to 'Edit Profile', edit_worker_registration_path, class: "bg-blue-500 text-white hover:bg-blue-600 font-semibold py-2 px-4 rounded shadow" %>
+        </li>
+        <li>
+          <%= link_to 'Logout', destroy_worker_session_path, method: :delete, class: "bg-red-500 text-white hover:bg-red-600 font-semibold py-2 px-4 rounded shadow" %>
+        </li>
+      <% else %>
+        <li>
+          <%= link_to 'Worker Sign Up', new_worker_registration_path, class: "bg-green-500 text-white hover:bg-green-600 font-semibold py-2 px-4 rounded shadow" %>
+        </li>
+        <li>
+          <%= link_to 'Worker Login', new_worker_session_path, class: "bg-gray-500 text-white hover:bg-gray-600 font-semibold py-2 px-4 rounded shadow" %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+
+  <div class="container mx-auto p-4">
+    <% if notice.present? %>
+      <p class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <span class="block sm:inline"><%= notice %></span>
+      </p>
+    <% end %>
+
+    <% if alert.present? %>
+      <p class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <span class="block sm:inline"><%= alert %></span>
+      </p>
+    <% end %>
+
     <%= yield %>
-  </body>
+  </div>
+
+  <!-- JavaScript to toggle navigation visibility -->
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navItems = document.querySelector('.nav-items');
+
+    menuToggle.addEventListener('click', () => {
+      if (navItems.style.display === 'none' || navItems.style.display === '') {
+        navItems.style.display = 'block'; // Change display to block if it's currently hidden
+      } else {
+        navItems.style.display = 'none'; // Otherwise, change display to none
+      }
+    });
+  </script>
+</body>
 </html>

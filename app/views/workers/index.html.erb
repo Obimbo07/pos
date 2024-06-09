@@ -1,14 +1,101 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Workers</h1>
-
-<div id="workers">
-  <% @workers.each do |worker| %>
-    <%= render worker %>
-    <p>
-      <%= link_to "Show this worker", worker %>
-    </p>
+<div class="container mx-auto my-10">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block"><%= notice %></p>
   <% end %>
-</div>
 
-<%= link_to "New worker", new_worker_path %>
+  <h1 class="text-4xl font-bold mb-10">Admin Dashboard</h1>
+
+  <!-- Workers Table -->
+  <div class="mb-10">
+    <h2 class="text-2xl font-bold mb-5">Workers</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white shadow-md rounded-lg">
+        <thead>
+          <tr>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Name</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Email</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Phone</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Services</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @workers.each do |worker| %>
+            <tr class="border-t">
+              <td class="py-3 px-5"><%= worker.name %></td>
+              <td class="py-3 px-5"><%= worker.email %></td>
+              <td class="py-3 px-5"><%= worker.phone %></td>
+              <td class="py-3 px-5"><%=  worker.service ? worker.service.name : 'No service assigned'  %></td>
+              <td class="py-3 px-5">
+                <%= link_to "Show", worker, class: "ml-2 rounded-lg py-1 px-3 bg-gray-100 inline-block font-medium" %>
+                <%= link_to "Edit", edit_worker_path(worker), class: "ml-2 rounded-lg py-1 px-3 bg-blue-100 text-blue-600 inline-block font-medium" %>
+                <%= link_to "Delete", worker, method: :delete, data: { confirm: 'Are you sure?' }, class: "ml-2 rounded-lg py-1 px-3 bg-red-100 text-red-600 inline-block font-medium" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <%= link_to "New worker", worker_registration_path, class: "mt-5 inline-block rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
+  </div>
+
+  <!-- Inventories Table -->
+  <div class="mb-10">
+    <h2 class="text-2xl font-bold mb-5">Inventories</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white shadow-md rounded-lg">
+        <thead>
+          <tr>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Name</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Price</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Bought</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Supplied</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Supplier Name</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">In Stock</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @inventories.each do |inventory| %>
+            <%= render inventory %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <%= link_to "New inventory", new_inventory_path, class: "mt-5 inline-block rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
+  </div>
+
+  <!-- Services Table -->
+  <div>
+    <h2 class="text-2xl font-bold mb-5">Services</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white shadow-md rounded-lg">
+        <thead>
+          <tr>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">id</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Name</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Price</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Commission</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @services.each do |service| %>
+            <tr class="border-t">
+              <td class="py-3 px-5"><%= service.id %></td>
+              <td class="py-3 px-5"><%= service.name %></td>
+              <td class="py-3 px-5"><%= service.price %></td>
+              <td class="py-3 px-5"><%= service.commission %></td>
+              <td class="py-3 px-5">
+                <%= link_to "Show", service, class: "ml-2 rounded-lg py-1 px-3 bg-gray-100 inline-block font-medium" %>
+                <%= link_to "Edit", edit_service_path(service), class: "ml-2 rounded-lg py-1 px-3 bg-blue-100 text-blue-600 inline-block font-medium" %>
+                <%= link_to "Delete", service, method: :delete, data: { confirm: 'Are you sure?' }, class: "ml-2 rounded-lg py-1 px-3 bg-red-100 text-red-600 inline-block font-medium" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <%= link_to "New service", new_service_path, class: "mt-5 inline-block rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
+  </div>
+</div>
