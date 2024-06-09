@@ -6,15 +6,21 @@
 
   <div class="sm:container mx-auto p-4">
     <h1 class="text-4xl font-semibold mb-6">Services</h1>
-    <div class="flex flex-row  sm:flex-wrap md:gap-6 gap-2">
-      <% @services.each do |service| %>
-        <div class="bg-white p-6 rounded-lg w-fit shadow-lg hover:shadow-xl transition-shadow duration-300">
-          <%= link_to service_path(service), class: "block" do %>
-            <h2 class="text-2xl font-bold mb-2"><%= service.name %></h2>
-            <p class="text-gray-700 mb-4"><%= number_to_currency(service.price) %></p>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
+    <%= form_with url: new_booking_path, method: :get, local: true do %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <% @services.each do |service| %>
+          <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <label>
+              <%= check_box_tag "service_ids[]", service.id %>
+              <h2 class="text-2xl font-bold mb-2 inline"><%= service.name %></h2>
+              <p class="text-gray-700 mb-4"><%= number_to_currency(service.price) %></p>
+            </label>
+          </div>
+        <% end %>
+      </div>
+      <div class="mt-6">
+        <%= submit_tag "Book Selected Services", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+      </div>
+    <% end %>
   </div>
 </div>
