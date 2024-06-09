@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
+  get "home" => "home#index"
 
   # Other routes can be defined here
 end
