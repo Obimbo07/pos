@@ -1,15 +1,18 @@
 Rails.application.routes.draw do
-  devise_for :workers, controllers: { registrations: 'workers/registrations' }
+  devise_for :admins
+  devise_for :workers, controllers: { 
+    registrations: 'workers/registrations',
+    sessions: 'workers/sessions'
+ }
   
   resources :inventories
   resources :services
   resources :bookings, only: [:index, :new, :create]
-  resources :workers, only: [:index, :show, :edit, :update, :destroy]
-
-  devise_for :admins
 
   root "home#index"
 
+
   get "up" => "rails/health#show", as: :rails_health_check
   get "home" => "home#index"
+  get "worker-dashboard" => "worker_dashboard#index"
 end

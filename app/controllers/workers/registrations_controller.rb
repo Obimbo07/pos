@@ -2,7 +2,7 @@
 
 class Workers::RegistrationsController < Devise::RegistrationsController
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :load_services, only: [:new, :create]
+  before_action :load_services, only: %i[new create edit update]
 
   protected
 
