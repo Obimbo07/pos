@@ -47,14 +47,33 @@
           <%= link_to 'Edit Profile', edit_worker_registration_path, class: "bg-blue-500 text-white hover:bg-blue-600 font-semibold py-2 px-4 rounded shadow" %>
         </li>
         <li>
-          <%= link_to 'Logout', destroy_worker_session_path, method: :delete, class: "bg-red-500 text-white hover:bg-red-600 font-semibold py-2 px-4 rounded shadow" %>
+          <%= button_to 'Logout', destroy_worker_session_path, method: :delete, class: "bg-red-500 text-white hover:bg-red-600 font-semibold py-2 px-4 rounded shadow" %>
         </li>
-      <% else %>
+      <% elsif admin_signed_in? %>
+        <li>
+          <%= button_to "Edit Profile", edit_admin_registration_path, class: "bg-blue-500 text-white hover:bg-blue-600 font-semibold py-2 px-4 rounded shadow" %>
+        </li>
+
+        <li>
+          <%= button_to 'Logout', destroy_admin_session_path, method: :delete, class: "bg-red-500 text-white hover:bg-red-600 font-semibold py-2 px-4 rounded shadow" %>
+        </li>
+
+        <% else %>
+
         <li>
           <%= link_to 'Worker Sign Up', new_worker_registration_path, class: "bg-green-500 text-white hover:bg-green-600 font-semibold py-2 px-4 rounded shadow" %>
         </li>
+
         <li>
           <%= link_to 'Worker Login', new_worker_session_path, class: "bg-gray-500 text-white hover:bg-gray-600 font-semibold py-2 px-4 rounded shadow" %>
+        </li>
+
+        <li>
+          <%= link_to 'Admin Sign Up', new_admin_registration_path, class: "bg-green-500 text-white hover:bg-green-600 font-semibold py-2 px-4 rounded shadow" %>
+        </li>
+
+        <li>
+          <%= link_to 'Admin Sign Login', new_admin_session_path, class: "bg-green-500 text-white hover:bg-green-600 font-semibold py-2 px-4 rounded shadow" %>
         </li>
       <% end %>
     </ul>

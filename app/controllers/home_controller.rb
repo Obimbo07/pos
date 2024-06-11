@@ -5,6 +5,11 @@ class HomeController < ApplicationController
     Rails.logger.info "Session User ID: #{session[:user_id]}"
   end
 
+  def show
+    @inventories = Inventory.all
+    @services = Service.all
+  end
+
   private
 
   def set_sessions
