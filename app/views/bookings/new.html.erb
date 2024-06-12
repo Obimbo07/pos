@@ -1,12 +1,20 @@
 <div class="sm:container mx-auto p-4">
   <h1 class="text-4xl font-semibold mb-6">Confirm Your Booking</h1>
-  <%= form_with model: @booking_history, url: bookings_path, local: true do |f| %>
+  <%= form_with model: @booking_history, url: new_bookinghistory_path, method: :post local: true do |f| %>
     <%= hidden_field_tag "booking[service_ids][]", nil %>
     <% @services.each do |service| %>
       <%= hidden_field_tag "booking[service_ids][]", service.id %>
       <div class="bg-white p-6 rounded-lg shadow-lg mb-4">
         <h2 class="text-2xl font-bold mb-2"><%= service.name %></h2>
         <p class="text-gray-700 mb-4"><%= number_to_currency(service.price) %></p>
+      </div>
+    <% end %>
+    <%= hidden_field_tag "booking[service_ids][]", nil %>
+    <% @inventories.each do |inventory| %>
+      <%= hidden_field_tag "booking[service_ids][]", inventory.id %>
+      <div class="bg-white p-6 rounded-lg shadow-lg mb-4">
+        <h2 class="text-2xl font-bold mb-2"><%= inventroy.name %></h2>
+        <p class="text-gray-700 mb-4"><%= number_to_currency(inventory.price) %></p>
       </div>
     <% end %>
     <div class="mb-4">

@@ -67,3 +67,5 @@ group :test do
 end
 gem "devise"
 gem "tailwindcss-rails"
+
+gem "cancancan", "~> 3.6"

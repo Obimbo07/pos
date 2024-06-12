@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   get "up" => "rails/health#show", as: :rails_health_check
   get "home" => "home#index"
-  get "home/admin" => "home#show"
+  get "admin" => "home#show"
+  get "bookinghistory" => "bookingh"
   get "worker-dashboard" => "worker_dashboard#index"
 end

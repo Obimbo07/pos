@@ -1,6 +1,8 @@
 class HomeController < ApplicationController
+  load_and_authorize_resource class: false
   def index
     @services = Service.all
+    @inventories = Inventory.all
     set_sessions
     Rails.logger.info "Session User ID: #{session[:user_id]}"
   end
