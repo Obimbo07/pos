@@ -3,7 +3,11 @@ class Inventory < ApplicationRecord
         in_stock.nil? ? "out-of-stock" : in_stock
     end
     def decrement_stock
-        self.in_stock -= 1
-        save!
+        if in_stock > 0
+          self.in_stock -= 1
+          save!
+        else
+          raise "Stock not available"
+       end
     end
 end
