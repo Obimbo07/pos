@@ -4,8 +4,8 @@ class CreateServices < ActiveRecord::Migration[7.1]
       t.string :name
       t.integer :price
       t.decimal :commission
-
-      t.timestamps
+      t.integer :worker_id
+      t.timestamps null: false
     end
   end
 end
