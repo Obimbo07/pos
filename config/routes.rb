@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   
   resources :inventories
   resources :services
-  resources :bookings, only: [:index, :new, :create]
+  resources :bookings
 
   root "home#index"
 
