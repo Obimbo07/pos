@@ -1,6 +1,6 @@
 databases:
-  - name: pos_db
-    databaseName: pos_db
+  - name: pos
+    databaseName: pos
     user: obimbo
     plan: free
 
@@ -13,9 +13,9 @@ services:
     # preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
     startCommand: "bundle exec rails server"
     envVars:
-      - key: postgres://obimbo:JcWZ97nyelbXGStUsY1sxiJbgO26FHwZ@dpg-cplbqpn109ks73dppksg-a/db_pos_s2ee
+      - key: postgres://obimbo:pA1JwYjIQu84Kt5bcnGW4aviABWjkGpt@dpg-cplch5q1hbls73ecm5b0-a/pos_6hxj
         fromDatabase:
-          name: pos_db
+          name: pos
           property: connectionString
       - key: a80ff83a27fb6d0afc2f4434a22222d9
         sync: false
