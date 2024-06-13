@@ -8,7 +8,7 @@
   <div class="sm:container mx-auto p-4">
   <h1 class="text-4xl font-semibold mb-6">Services and Inventories</h1>
   <%= form_with url: new_booking_path, method: :get, local: true do %>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-6">
       <% @services.each do |service| %>
         <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
           <label>
@@ -20,7 +20,7 @@
       <% end %>
     </div>
     <h2 class="text-3xl font-semibold mt-6 mb-2">Inventories</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-6">
       <% @inventories.each do |inventory| %>
         <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
           <label>
