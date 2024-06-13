@@ -10,12 +10,6 @@ class BookingsController < ApplicationController
     @booking_history = BookingHistory.new
   end
 
-  def new
-    @services = params[:service_ids].present? ? Service.where(id: params[:service_ids]) : []
-    @inventories = params[:inventory_ids].present? ? Inventory.where(id: params[:inventory_ids]) : []
-    @booking_history = BookingHistory.new
-  end
-
   def create
     service_ids = params[:booking][:service_ids].reject(&:blank?)
     inventory_ids = params[:booking][:inventory_ids].reject(&:blank?)
