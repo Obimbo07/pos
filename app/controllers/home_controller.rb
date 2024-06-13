@@ -9,6 +9,7 @@ class HomeController < ApplicationController
   def show
     @inventories = Inventory.all
     @services = Service.all
+    @workers = Worker.includes(:services)
   end
 
   private

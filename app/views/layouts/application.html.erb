@@ -25,6 +25,11 @@
         display: block; /* Show the navigation items when the nav-open class is applied */
       }
     }
+
+    /* Additional styles for checkbox selection */
+    .checkbox-selected {
+      background-color: #6EE7B7; /* Light green background for selected checkboxes */
+    }
   </style>
 </head>
 
@@ -58,8 +63,7 @@
           <%= button_to 'Logout', destroy_admin_session_path, method: :delete, class: "bg-red-500 text-white hover:bg-red-600 font-semibold py-2 px-4 rounded shadow" %>
         </li>
 
-        <% else %>
-
+      <% else %>
         <li>
           <%= link_to 'Worker Sign Up', new_worker_registration_path, class: "bg-green-500 text-white hover:bg-green-600 font-semibold py-2 px-4 rounded shadow" %>
         </li>
@@ -77,8 +81,8 @@
         </li>
       <% end %>
       <li>
-          <%= link_to 'Home', home_path, class: "bg-green-500 text-white hover:bg-green-600 font-semibold py-2 px-4 rounded shadow" %>
-        </li>
+        <%= link_to 'Home', home_path, class: "bg-green-500 text-white hover:bg-green-600 font-semibold py-2 px-4 rounded shadow" %>
+      </li>
     </ul>
   </nav>
 
@@ -98,17 +102,31 @@
     <%= yield %>
   </div>
 
-  <!-- JavaScript to toggle navigation visibility -->
+  <!-- JavaScript to toggle navigation visibility and handle checkbox selection -->
   <script>
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navItems = document.querySelector('.nav-items');
+    document.addEventListener('DOMContentLoaded', function () {
+      const menuToggle = document.querySelector('.menu-toggle');
+      const navItems = document.querySelector('.nav-items');
 
-    menuToggle.addEventListener('click', () => {
-      if (navItems.style.display === 'none' || navItems.style.display === '') {
-        navItems.style.display = 'block'; // Change display to block if it's currently hidden
-      } else {
-        navItems.style.display = 'none'; // Otherwise, change display to none
-      }
+      menuToggle.addEventListener('click', () => {
+        if (navItems.style.display === 'none' || navItems.style.display === '') {
+          navItems.style.display = 'block'; // Change display to block if it's currently hidden
+        } else {
+          navItems.style.display = 'none'; // Otherwise, change display to none
+        }
+      });
+
+      // Function to handle checkbox selection
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+          if (checkbox.checked) {
+            checkbox.parentElement.classList.add('checkbox-selected'); // Add background color when checked
+          } else {
+            checkbox.parentElement.classList.remove('checkbox-selected'); // Remove background color when unchecked
+          }
+        });
+      });
     });
   </script>
 </body>
