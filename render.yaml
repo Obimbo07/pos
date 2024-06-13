@@ -1,7 +1,7 @@
 databases:
   - name: pos
     databaseName: pos
-    user: postgres
+    user: obimbo
     plan: free
 
 services:
