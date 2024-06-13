@@ -1,5 +1,5 @@
 databases:
-  - name: pos
+  - name: pos_db
     databaseName: pos_db
     user: obimbo
     plan: free
