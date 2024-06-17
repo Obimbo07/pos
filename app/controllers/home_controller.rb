@@ -10,6 +10,7 @@ class HomeController < ApplicationController
     @inventories = Inventory.all
     @services = Service.all
     @workers = Worker.includes(:services)
+    @bookings = BookingHistory.all
   end
 
   private

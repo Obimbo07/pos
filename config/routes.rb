@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   devise_for :admins, controllers: { 
     registrations: 'workers/registrations',
     sessions: 'workers/sessions'
