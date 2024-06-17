@@ -5,10 +5,9 @@ class CreateInventories < ActiveRecord::Migration[7.1]
       t.integer :price
       t.boolean :bought
       t.boolean :supplied
-      t.integer :supplier_name
       t.integer :in_stock
-
-      t.timestamps
+      t.string :supplier_name
+      t.timestamps null: false
     end
   end
 end

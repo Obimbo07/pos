@@ -13,3 +13,16 @@
  *= require_tree .
  *= require_self
  */
+.modal.hidden {
+    display: none;
+}
+  
+.modal {
+display: flex;
+}
+  
+@media(min-width: 1024px){
+    .welcome-image {
+        width: 32% !important;
+    }
+}
