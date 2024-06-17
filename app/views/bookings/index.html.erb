@@ -1,4 +1,3 @@
-<!-- app/views/some_view.html.erb -->
 <div>
   <div class="flex sm:flex-wrap justify-between">
     <h1 class="font-bold text-4xl">Bookings</h1>
@@ -6,7 +5,6 @@
   </div>
   <div class="flex justify-between">
     <%= button_to "Go to Home", home_path, method: :get, class: "bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded" %>
-    <!-- Button to open the modal -->
     <button id="pay-button" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">Pay</button>
   </div>
   <% @booking_histories.each do |booking_history| %>
@@ -25,9 +23,8 @@
   <% end %>
 </div>
 
-<!-- The Modal -->
 <div id="paymentModal" class="modal hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
-  <div class="bg-white p-8 rounded-lg shadow-lg">
+  <div class="bg-white p-8 rounded-lg shadow-lg" id="paymentForm">
     <h2 class="text-2xl font-bold mb-4">Confirm Payment</h2>
     <%= form_with url: stkpush_path, method: :post, local: true do |f| %>
       <div class="mb-4">
@@ -40,18 +37,67 @@
       </div>
       <div class="flex justify-end">
         <button type="button" id="cancel-button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">Cancel</button>
-        <%= f.submit "Confirm", class: "bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded" %>
+        <%= f.submit "Confirm", class: "confirm-pay bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded", id: "confirm-pay" %>
       </div>
     <% end %>
   </div>
+
+ <div id="loadingSpinner" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden">
+  <div class="bg-white p-8 rounded-lg shadow-lg">
+    <div class="flex justify-center mb-4">
+      <i class="fas fa-spinner fa-spin text-4xl text-gray-700"></i>
+    </div>
+    <p class="text-center text-gray-700">Processing payment...</p>
+    <p id="timer" class="text-center text-gray-700 mt-4">Time remaining: <span id="timeRemaining">5:00</span></p>
+  </div>
 </div>
 
-<script>
-  document.getElementById("pay-button").addEventListener("click", function() {
-    document.getElementById("paymentModal").classList.remove("hidden");
-  });
 
-  document.getElementById("cancel-button").addEventListener("click", function() {
-    document.getElementById("paymentModal").classList.add("hidden");
-  });
+</div>
+<script>
+function startTimer(duration) {
+  let timeRemaining = duration;
+  const timerDisplay = document.getElementById("timerDisplay");
+
+  function updateTimer() {
+    const minutes = Math.floor(timeRemaining / 60);
+    const seconds = timeRemaining % 60;
+    timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+    timeRemaining--;
+
+    if (timeRemaining <= 0) {
+      clearInterval(intervalId);
+      alert("Payment timed out. Please try again.");
+    }
+  }
+
+  const intervalId = setInterval(updateTimer, 1000);
+  updateTimer(); // Initial update
+}
+
+function showLoadingSpinner(duration = 3 * 60) {  // Default duration: 3 minutes
+  document.getElementById("loadingSpinner").classList.remove("hidden");
+  startTimer(duration);
+}
+
+function hideLoadingSpinner() {
+  document.getElementById("loadingSpinner").classList.add("hidden");
+  clearInterval(intervalId);
+}
+
+document.getElementById("pay-button").addEventListener("click", function() {
+  document.getElementById("paymentModal").classList.remove("hidden");
+  hideLoadingSpinner();
+});
+
+document.getElementById("cancel-button").addEventListener("click", function() {
+  document.getElementById("paymentModal").classList.add("hidden");
+});
+
+document.getElementById("confirm-pay").addEventListener("click", function() {
+  document.getElementById("paymentForm").classList.add("hidden");
+  showLoadingSpinner();
+})
+ 
 </script>
