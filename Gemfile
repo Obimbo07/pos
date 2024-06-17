@@ -69,3 +69,8 @@ end
 gem "devise"
 gem "tailwindcss-rails"
 gem 'sassc-rails'
+
+gem "rack-cors", "~> 2.0"
+gem "rest-client", "~> 2.1"
+
+gem "ffi", "~> 1.17"
