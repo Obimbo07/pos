@@ -1,0 +1,14 @@
+<div>
+  <h1 class="font-bold text-2xl">Transaction Status</h1>
+  <% if @transaction_status %>
+    <p class="text-gray-700"><strong>Merchant Request ID:</strong> <%= @transaction_status["MerchantRequestID"] %></p>
+    <p class="text-gray-700"><strong>Response Description:</strong> <%= @transaction_status["ResponseDescription"] %></p>
+    <p class="text-gray-700"><strong>Checkout Request ID:</strong> <%= @transaction_status["CheckoutRequestID"] %></p>
+    <p class="text-gray-700"><strong>Result Code:</strong> <%= @transaction_status["ResultCode"] %></p>
+    <p class="text-gray-700"><strong>Result Description:</strong> <%= @transaction_status["ResultDesc"] %></p>
+    <%# Add more fields as needed %>
+  <% else %>
+    <p class="text-gray-700">Unable to retrieve transaction status.</p>
+  <% end %>
+  <%= link_to 'Go back', root_path, class: 'bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded' %>
+</div>
