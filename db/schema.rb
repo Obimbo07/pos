@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_17_015754) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_20_190804) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,6 +71,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_17_015754) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "booking_histories_workers", id: false, force: :cascade do |t|
+    t.bigint "booking_history_id", null: false
+    t.bigint "worker_id", null: false
+    t.index ["booking_history_id"], name: "index_booking_histories_workers_on_booking_history_id"
+    t.index ["worker_id"], name: "index_booking_histories_workers_on_worker_id"
+  end
+
   create_table "inventories", force: :cascade do |t|
     t.string "name"
     t.integer "price"
@@ -108,6 +115,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_17_015754) do
     t.index ["worker_id", "service_id"], name: "index_services_workers_on_worker_id_and_service_id"
   end
 
+  create_table "worker_commissions", force: :cascade do |t|
+    t.bigint "worker_id", null: false
+    t.bigint "booking_history_id", null: false
+    t.decimal "commission", default: "0.0", null: false
+    t.datetime "timestamp", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_history_id"], name: "index_worker_commissions_on_booking_history_id"
+    t.index ["worker_id"], name: "index_worker_commissions_on_worker_id"
+  end
+
   create_table "workers", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -128,4 +146,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_17_015754) do
     t.index ["reset_password_token"], name: "index_workers_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "worker_commissions", "booking_histories"
+  add_foreign_key "worker_commissions", "workers"
 end
