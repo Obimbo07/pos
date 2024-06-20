@@ -4,6 +4,7 @@ class Worker < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_and_belongs_to_many :services
+  has_and_belongs_to_many :booking_histories
   def self.ransackable_attributes(auth_object = nil)
     ["created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "id", "id_value", "last_sign_in_at", "last_sign_in_ip", "name", "phone", "remember_created_at", "reset_password_sent_at", "reset_password_token", "services", "sign_in_count", "updated_at"]
   end
