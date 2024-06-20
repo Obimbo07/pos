@@ -1,39 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Worker Dashboard</title>
-  <%= csrf_meta_tags %>
-  <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
-</head>
-<body class="bg-gray-100">
-  <div class="container mx-auto py-8">
-    <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
-      <div class="px-6 py-4">
-        <h1 class="text-2xl font-bold mb-4">Welcome, <%= @current_worker.name %>!</h1>
-        <div class="mb-4">
-          <p class="text-gray-700"><span class="font-semibold">Email:</span> <%= @current_worker.email %></p>
-          <p class="text-gray-700"><span class="font-semibold">Phone:</span> <%= @current_worker.phone %></p>
-        </div>
-        <div class="mb-4">
-          <h2 class="text-xl font-semibold text-gray-900 mb-2">Services:</h2>
-          <ul class="list-disc pl-5 space-y-1 text-gray-700">
-            <% @services.each do |service| %>
-              <li><%= service.name %></li>
-              <li><%= service.commission %></li>
-            <% end %>
-          </ul>
-          <h2 class="text-xl font-semibold text-gray-900 mb-2">Commission Earned:</h2>
-            <h2 class="text-extrabold text-xl"><%= @total_commission %></h2>
-            <ul class="list-disc pl-5 space-y-1 text-gray-700">
-            <% @worker_commissions.each do |commission| %>
-              <li><%= commission.commission %> earned on <%= commission.timestamp %></li>
-            <% end %>
-          </ul>
-        </div>
+
+<div class="container mx-auto py-8">
+  <div class="max-w-4xl mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
+    <div class="px-8 py-6">
+      <h1 class="text-3xl font-bold mb-6">Welcome, <%= @current_worker.name %>!</h1>
+      <div class="mb-6">
+        <p class="text-lg text-gray-700 mb-2"><span class="font-semibold">Email:</span> <%= @current_worker.email %></p>
+        <p class="text-lg text-gray-700 mb-2"><span class="font-semibold">Phone:</span> <%= @current_worker.phone %></p>
+      </div>
+      <div class="mb-6">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Services:</h2>
+        <ul class="list-disc pl-5 space-y-2 text-gray-700 text-lg">
+          <% @services.each do |service| %>
+            <li><span class="font-semibold"><%= service.name %>:</span> <%= number_to_currency(service.commission) %></li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="mb-6">
+        <%= link_to "Request Cash out", home_path, class: "inline-block bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-800 transition duration-300" %>
+      </div>
+      <div class="mb-6">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Commission Earned:</h2>
+        <h2 class="text-2xl font-extrabold text-blue-600 mb-4"><%= number_to_currency(@total_commission) %></h2>
+        <ul class="list-disc pl-5 space-y-2 text-gray-700 text-lg">
+          <% @worker_commissions.each do |commission| %>
+            <li><%= number_to_currency(commission.commission) %> earned on <%= commission.timestamp.strftime("%B %d, %Y") %></li>
+          <% end %>
+        </ul>
       </div>
     </div>
   </div>
-</body>
-</html>
+</div>
+
