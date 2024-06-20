@@ -2,14 +2,14 @@
 class MpesaQueryJob < ApplicationJob
   queue_as :default
 
-  def perform(checkoutRequestID, retries = 3, delay = 2.minutes)
+  def perform(checkoutRequestID, retries = 3, delay = 1.minutes)
     url = "https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query"
     timestamp = "#{Time.now.strftime "%Y%m%d%H%M%S"}"
     business_short_code = ENV["MPESA_SHORT_CODE"]
     password = Base64.strict_encode64("#{business_short_code}#{ENV["MPESA_PASSKEY"]}#{timestamp}")
     payload = {
       'BusinessShortCode': business_short_code,
-      'Password': password,
+      'Password': password, 
       'Timestamp': timestamp,
       'CheckoutRequestID': checkoutRequestID
     }.to_json

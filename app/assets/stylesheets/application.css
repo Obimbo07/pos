@@ -13,6 +13,10 @@
  *= require_tree .
  *= require_self
  */
+*{
+    list-style: none !important;
+}
+
 .modal.hidden {
     display: none;
 }

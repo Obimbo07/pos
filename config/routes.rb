@@ -18,10 +18,10 @@ Rails.application.routes.draw do
   root "home#index"
 
   post 'stkpush', to: 'mpesas#stkpush'
-  get 'stkquery', to: 'mpesas#stkquery'
+  post 'stkquery', to: 'mpesas#stkquery'
   post 'pay', to: 'mpesas#pay'
   get "up" => "rails/health#show", as: :rails_health_check
   get "home" => "home#index"
   get "home/admin" => "home#show"
-  get "worker-dashboard" => "worker_dashboard#index"
+  get "worker" => "worker_dashboard#index"
 end
