@@ -15,22 +15,8 @@ services = [
   { name: 'Service Five', price: 500, commission: 30.0 }
 ]
 
-inventories = [
-  { name: 'Dreads', price: 1000, bought: true, supplied: false, in_stock: 200, supplier_name: 'Austin'},
-  { name: 'Dreads 1', price: 1000, bought: true, supplied: false, in_stock: 200, supplier_name: 'Austin'},
-  { name: 'Dreads 2', price: 1000, bought: true, supplied: false, in_stock: 200, supplier_name: 'Austin'},
-  { name: 'Dreads 3', price: 1000, bought: true, supplied: false, in_stock: 200, supplier_name: 'Austin'},
-  { name: 'Dreads 4', price: 1000, bought: true, supplied: false, in_stock: 200, supplier_name: 'Austin'},
-]
-
 services.each do |service_attrs|
   Service.create(service_attrs)
 end
 
-inventories.each do |inventory_attrs|
-  Inventory.create(inventory_attrs)
-end
-
-puts "Created #{Inventory.count} services"
 puts "Created #{Service.count} services"
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
