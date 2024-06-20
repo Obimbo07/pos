@@ -10,46 +10,68 @@ class MpesasController < ApplicationController
         business_short_code = ENV["MPESA_SHORT_CODE"]
         password = Base64.strict_encode64("#{business_short_code}#{ENV["MPESA_PASSKEY"]}#{timestamp}")
         payload = {
-            'BusinessShortCode': business_short_code,
-            'Password': password,
-            'Timestamp': timestamp,
-            'TransactionType': "CustomerPayBillOnline",
-            'Amount': amount,
-            'PartyA': phoneNumber,
-            'PartyB': business_short_code,
-            'PhoneNumber': phoneNumber,
-            'CallBackURL': "#{ENV["CALLBACK_URL"]}/callback_url",
-            'AccountReference': 'Codearn',
-            'TransactionDesc': "Payment for Codearn premium"
+          'BusinessShortCode': business_short_code,
+          'Password': password,
+          'Timestamp': timestamp,
+          'TransactionType': "CustomerPayBillOnline",
+          'Amount': amount,
+          'PartyA': phoneNumber,
+          'PartyB': business_short_code,
+          'PhoneNumber': phoneNumber,
+          'CallBackURL': "#{ENV["CALLBACK_URL"]}/callback_url",
+          'AccountReference': 'Codearn',
+          'TransactionDesc': "Payment for Codearn premium"
         }.to_json
-
+      
         headers = {
-            Content_type: 'application/json',
-            Authorization: "Bearer #{access_token}"
+          Content_type: 'application/json',
+          Authorization: "Bearer #{access_token}"
         }
-
+      
         response = RestClient::Request.new({
-            method: :post,
-            url: url,
-            payload: payload,
-            headers: headers
+          method: :post,
+          url: url,
+          payload: payload,
+          headers: headers
         }).execute do |response, request|
-            case response.code
-            when 500
-                [ :error, JSON.parse(response.to_str) ]
-            when 400
-                [ :error, JSON.parse(response.to_str) ]
-            when 200
-                [ :success, JSON.parse(response.to_str) ]
-            else
-                fail "Invalid response #{response.to_str} received."
-            end
+          case response.code
+          when 500
+            [:error, JSON.parse(response.to_str)]
+          when 400
+            [:error, JSON.parse(response.to_str)]
+          when 200
+            [:success, JSON.parse(response.to_str)]
+          else
+            fail "Invalid response #{response.to_str} received."
+          end
         end
-        puts response[1]
-        render json: response[1]
+      
+        if response[0] == :success
+          response_data = response[1]
+          
+          # Extract relevant data from the response
+          checkoutRequestID = response_data["CheckoutRequestID"]
+          merchantRequestID = response_data["MerchantRequestID"]
+      
+          # Save data to the database
+          Mpesa.create(
+            phoneNumber: phoneNumber,
+            amount: amount,
+            checkoutRequestID: checkoutRequestID,
+            merchantRequestID: merchantRequestID
+        )
+
+        MpesaQueryJob.set(wait: 1.minutes).perform_later(checkoutRequestID)
+        end
+      
+        puts response[1]    
     end
+      
 
     def stkquery
+        @mpesa = Mpesa.find_by(checkoutRequestID: params[:checkoutRequestID])
+        return render json: { error: "Transaction not found" }, status: :not_found unless @mpesa
+
         url = "https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query"
         timestamp = "#{Time.now.strftime "%Y%m%d%H%M%S"}"
         business_short_code = ENV["MPESA_SHORT_CODE"]
@@ -60,6 +82,8 @@ class MpesasController < ApplicationController
             'Timestamp': timestamp,
             'CheckoutRequestID': params[:checkoutRequestID]
         }.to_json
+
+        puts payload.to_json
 
         headers = {
             Content_type: 'application/json',
@@ -83,8 +107,12 @@ class MpesasController < ApplicationController
                 fail "Invalid response #{response.to_str} received."
             end
         end
-        render json: response[1] # render only the response body
-        puts response
+       
+        if response[0] == :success
+            @transaction_status = response[1]
+          else
+            @transaction_status = response[1]
+        end
     end
 
     private

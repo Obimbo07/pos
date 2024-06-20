@@ -48,35 +48,16 @@
       <i class="fas fa-spinner fa-spin text-4xl text-gray-700"></i>
     </div>
     <p class="text-center text-gray-700">Processing payment...</p>
-    <p id="timer" class="text-center text-gray-700 mt-4">Time remaining: <span id="timeRemaining">5:00</span></p>
+      <%# <p id="timer" class="text-center text-gray-700 mt-4">Time remaining: <span id="timeRemaining">5:00</span></p> %>
   </div>
 </div>
 
 
 </div>
 <script>
-function startTimer(duration) {
-  let timeRemaining = duration;
-  const timerDisplay = document.getElementById("timerDisplay");
 
-  function updateTimer() {
-    const minutes = Math.floor(timeRemaining / 60);
-    const seconds = timeRemaining % 60;
-    timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-    timeRemaining--;
-
-    if (timeRemaining <= 0) {
-      clearInterval(intervalId);
-      alert("Payment timed out. Please try again.");
-    }
-  }
-
-  const intervalId = setInterval(updateTimer, 1000);
-  updateTimer(); // Initial update
-}
-
-function showLoadingSpinner(duration = 3 * 60) {  // Default duration: 3 minutes
+function showLoadingSpinner(duration = 3 * 60) {
   document.getElementById("loadingSpinner").classList.remove("hidden");
   startTimer(duration);
 }
@@ -99,5 +80,7 @@ document.getElementById("confirm-pay").addEventListener("click", function() {
   document.getElementById("paymentForm").classList.add("hidden");
   showLoadingSpinner();
 })
+
+
  
 </script>

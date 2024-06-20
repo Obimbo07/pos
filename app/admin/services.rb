@@ -1,18 +1,36 @@
 ActiveAdmin.register Service do
- 
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
-  # permit_params :name, :price, :commission, :worker_id
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:name, :price, :commission, :worker_id]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
-  
+  permit_params :name, :price, :commission, :worker_ids => []
+
+  form do |f|
+    f.inputs 'Service Details' do
+      f.input :name
+      f.input :price
+      f.input :commission
+      f.input :workers, as: :check_boxes, collection: Worker.all
+    end
+    f.actions
+  end
+
+  show do
+    attributes_table do
+      row :name
+      row :price
+      row :commission
+      row :workers do |service|
+        service.workers.map(&:name).join(', ')
+      end
+    end
+  end
+
+  index do
+    selectable_column
+    id_column
+    column :name
+    column :price
+    column :commission
+    column :workers do |service|
+      service.workers.map(&:name).join(', ')
+    end
+    actions
+  end
 end

@@ -18,9 +18,9 @@
       .menu-toggle {
         display: block;
       }
-      .nav-items {
+      /* .nav-items {
         display: none; /* Hide the navigation items by default on small screens */
-      }
+      } */
       .nav-open .nav-items {
         display: block; /* Show the navigation items when the nav-open class is applied */
       }
@@ -35,18 +35,18 @@
 
 <body class="bg-gray-100">
   <!-- Hamburger menu button -->
-  <button class="menu-toggle sm:hidden absolute top-4 right-4 p-4 text-white">
+  <%# <button class="menu-toggle sm:hidden absolute top-4 right-4 p-4 text-white">
     <svg class="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <path class="menu-icon" fill-rule="evenodd" d="M3 18h18v-2H3v2zM3 13h18v-2H3v2zM3 6v2h18V6H3z"/>
     </svg>
-  </button>
+  </button> %>
 
   <!-- Navigation bar -->
-  <nav class="bg-green-300 sm:bg-green-500 p-4 nav-items">
-    <ul class="flex flex-col space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 justify-center">
+  <nav class="p-4 nav-items">
+    <ul class="flex flex-row sm:flex-row  justify-evenly">
       <% if worker_signed_in? %>
         <li>
-          <%= link_to 'Worker Dashboard', worker_dashboard_path, class: "bg-yellow-500 text-black hover:bg-yellow-600 font-semibold py-2 px-4 rounded shadow" %>
+          <%= link_to 'Worker Dashboard', worker_path, class: "bg-yellow-500 text-black hover:bg-yellow-600 font-semibold py-2 px-4 rounded shadow" %>
         </li>
         <li>
           <%= link_to 'Edit Profile', edit_worker_registration_path, class: "bg-blue-500 text-white hover:bg-blue-600 font-semibold py-2 px-4 rounded shadow" %>
@@ -66,22 +66,9 @@
         <li>
           <%= button_to 'Logout', destroy_admin_session_path, method: :delete, class: "bg-red-500 text-white hover:bg-red-600 font-semibold py-2 px-4 rounded shadow" %>
         </li>
-
       <% else %>
         <li>
-          <%= link_to 'Worker Sign Up', new_worker_registration_path, class: "bg-green-500 text-white hover:bg-green-600 font-semibold py-2 px-4 rounded shadow" %>
-        </li>
-
-        <li>
-          <%= link_to 'Worker Login', new_worker_session_path, class: "bg-gray-500 text-white hover:bg-gray-600 font-semibold py-2 px-4 rounded shadow" %>
-        </li>
-
-        <li>
-          <%= link_to 'Admin Sign Up', new_admin_registration_path, class: "bg-green-500 text-white hover:bg-green-600 font-semibold py-2 px-4 rounded shadow" %>
-        </li>
-
-        <li>
-          <%= link_to 'Admin Sign Login', new_admin_session_path, class: "bg-green-500 text-white hover:bg-green-600 font-semibold py-2 px-4 rounded shadow" %>
+          <%= link_to "Check booked session", bookings_path, class: "bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300" %>
         </li>
       <% end %>
       <li>
@@ -106,20 +93,19 @@
     <%= yield %>
   </div>
 
-  <!-- JavaScript to toggle navigation visibility and handle checkbox selection -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.8.3/anime.min.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const menuToggle = document.querySelector('.menu-toggle');
-      const navItems = document.querySelector('.nav-items');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navItems = document.querySelector('.nav-items');
 
       menuToggle.addEventListener('click', () => {
         if (navItems.style.display === 'none') {
-          navItems.style.display = 'block'; // Change display to block if it's currently hidden
+          navItems.style.display = 'block';
         } else {
-          navItems.style.display = 'none'; // Otherwise, change display to none
+          navItems.style.display = 'none';
         }
       });
-
+    document.addEventListener('DOMContentLoaded', function () {
       const checkboxes = document.querySelectorAll('input[type="checkbox"]');
       checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
