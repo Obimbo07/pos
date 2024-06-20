@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Dashboard</title>
+  <title>Worker Dashboard</title>
   <%= csrf_meta_tags %>
   <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
 </head>
@@ -25,7 +25,11 @@
             <% end %>
           </ul>
           <h2 class="text-xl font-semibold text-gray-900 mb-2">Commission Earned:</h2>
-          
+            <ul class="list-disc pl-5 space-y-1 text-gray-700">
+            <% @worker_commissions.each do |commission| %>
+              <li><%= commission.commission %> earned on <%= commission.timestamp %></li>
+            <% end %>
+          </ul>
         </div>
       </div>
     </div>

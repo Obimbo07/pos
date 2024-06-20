@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  worker: one
+  booking_history: one
+  commission: 9.99
+  timestamp: 2024-06-20 22:08:04
+
+two:
+  worker: two
+  booking_history: two
+  commission: 9.99
+  timestamp: 2024-06-20 22:08:04

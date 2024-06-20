@@ -24,6 +24,16 @@ ActiveAdmin.register BookingHistory do
     column :workers do |booking_history|
       booking_history.workers.map(&:name).join(', ')
     end
+    column :service do |booking_history|
+      booking_history.service&.name
+    end
+    column :inventory do |booking_history|
+      booking_history.inventory&.name
+    end
+    column :commissions do |booking_history|
+      puts booking_history.worker_commissions.inspect
+      booking_history.worker_commissions.map { |wc| "#{wc.worker.name}: #{wc.commission} (#{wc.timestamp})" }.join(', ')
+    end
     actions
   end
 
@@ -37,7 +47,17 @@ ActiveAdmin.register BookingHistory do
       row :workers do |booking_history|
         booking_history.workers.map(&:name).join(', ')
       end
+      row :commissions do |booking_history|
+        booking_history.worker_commissions.map { |wc| "#{wc.worker.name}: #{wc.commission} (#{wc.timestamp})" }.join(', ')
+      end
     end
     active_admin_comments
   end
+
+  filter :user_name
+  filter :phone_number
+  filter :service
+  filter :session_id
+  filter :inventory
+  filter :workers, as: :select, collection: proc { Worker.all }
 end
