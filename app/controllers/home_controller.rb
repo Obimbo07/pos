@@ -1,16 +1,8 @@
 class HomeController < ApplicationController
   def index
     @services = Service.all
-    @inventories = Inventory.all
     set_sessions
     Rails.logger.info "Session User ID: #{session[:user_id]}"
-  end
-
-  def show
-    @inventories = Inventory.all
-    @services = Service.all
-    @workers = Worker.includes(:services)
-    @bookings = BookingHistory.all
   end
 
   private
