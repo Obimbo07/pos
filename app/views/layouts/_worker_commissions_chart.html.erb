@@ -1,0 +1,30 @@
+<!-- app/views/admin/dashboard/_worker_commissions_chart.html.erb -->
+<div class="chart-container" style="position: relative; height:40vh; width:80vw">
+  <canvas id="workerCommissionsChart"></canvas>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var ctx = document.getElementById('workerCommissionsChart').getContext('2d');
+    var workerCommissionsChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: <%= Worker.pluck(:name).to_json.html_safe %>,
+        datasets: [{
+          label: 'Total Commission',
+          data: <%= Worker.joins(:worker_commissions).group(:name).sum(:commission).values.to_json.html_safe %>,
+          backgroundColor: 'rgba(153, 102, 255, 0.2)',
+          borderColor: 'rgba(153, 102, 255, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  });
+</script>

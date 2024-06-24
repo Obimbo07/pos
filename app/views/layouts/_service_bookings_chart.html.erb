@@ -1,0 +1,30 @@
+<!-- app/views/admin/dashboard/_service_bookings_chart.html.erb -->
+<div class="chart-container" style="position: relative; height:40vh; width:80vw">
+  <canvas id="serviceBookingsChart"></canvas>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var ctx = document.getElementById('serviceBookingsChart').getContext('2d');
+    var serviceBookingsChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: <%= Service.pluck(:name).to_json.html_safe %>,
+        datasets: [{
+          label: 'Number of Bookings',
+          data: <%= Service.joins(:booking_histories).group(:name).count.values.to_json.html_safe %>,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  });
+</script>
