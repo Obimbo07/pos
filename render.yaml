@@ -1,0 +1,23 @@
+databases:
+  - name: pos
+    databaseName: pos
+    user: obimbo
+    plan: free
+
+services:
+  - type: web
+    name: pos
+    runtime: ruby
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    # preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
+    startCommand: "bundle exec rails server"
+    envVars:
+      - key: postgres://obimbo:pA1JwYjIQu84Kt5bcnGW4aviABWjkGpt@dpg-cplch5q1hbls73ecm5b0-a/pos_6hxj
+        fromDatabase:
+          name: pos
+          property: connectionString
+      - key: a80ff83a27fb6d0afc2f4434a22222d9
+        sync: false
+      - key: WEB_CONCURRENCY
+        value: 2
