@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "active_admin/mixins";
+@import "active_admin/base";
+
 /*
 
 @layer components {
