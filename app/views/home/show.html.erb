@@ -1,0 +1,99 @@
+<div class="container mx-auto my-10">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block"><%= notice %></p>
+  <% end %>
+
+  <h1 class="text-4xl font-bold mb-10">Admin Dashboard</h1>
+
+  <!-- Workers Table -->
+  <div class="mb-10">
+    <h2 class="text-2xl font-bold mb-5">Workers</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white shadow-md rounded-lg">
+        <thead>
+          <tr>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Name</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Email</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Phone</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Bookings</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Created At</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Updated At</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Sign In Count</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Current Sign In At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @workers.each do |worker| %>
+            <%= render 'worker', worker: worker %>          
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <%= link_to "New Worker", new_worker_registration_path, class: "mt-5 inline-block rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
+  </div>
+
+  <!-- Inventories Table -->
+  <div class="mb-10">
+    <h2 class="text-2xl font-bold mb-5">Inventories</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white shadow-md rounded-lg">
+        <thead>
+          <tr>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Name</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Price</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Bought</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Supplied</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Supplier Name</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">In Stock</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @inventories.each do |inventory| %>
+            <%= render inventory %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <%= link_to "New Inventory", new_inventory_path, class: "mt-5 inline-block rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
+  </div>
+
+  <!-- Bookings Table -->
+  <div>
+    <h2 class="text-2xl font-bold mb-5">Booked Histories</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white shadow-md rounded-lg">
+        <thead>
+          <tr>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">ID</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">User Name</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Phone Number</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Session ID</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Inventory ID</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Created At</th>
+            <th class="py-3 px-5 bg-gray-100 text-left font-medium text-gray-700">Updated At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @bookings.each do |booking| %>
+            <tr class="border-t">
+              <td class="py-3 px-5"><%= booking.id %></td>
+              <td class="py-3 px-5"><%= booking.user_name %></td>
+              <td class="py-3 px-5"><%= booking.phone_number %></td>
+              <td class="py-3 px-5"><%= booking.session_id %></td>
+              <td class="py-3 px-5">
+                <% if booking.inventory_id.present? %>
+                  <%= booking.inventory_id %>
+                <% else %>
+                  Not Selected
+                <% end %>
+              </td>
+              <td class="py-3 px-5"><%= booking.created_at %></td>
+              <td class="py-3 px-5"><%= booking.updated_at %></td> 
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -20,4 +20,4 @@ services:
       - key: a80ff83a27fb6d0afc2f4434a22222d9
         sync: false
       - key: WEB_CONCURRENCY
-        value: 2
+        value: 2 # sensible default
