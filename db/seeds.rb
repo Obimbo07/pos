@@ -33,4 +33,4 @@ end
 
 puts "Created #{Inventory.count} services"
 puts "Created #{Service.count} services"
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+AdminUser.create!(email: 'admin@mainadesalonist.com', password: 'password', password_confirmation: 'password')
