@@ -74,3 +74,5 @@ gem "rack-cors", "~> 2.0"
 gem "rest-client", "~> 2.1"
 
 gem "ffi", "~> 1.17"
+gem "chartkick"
+gem "groupdate"
