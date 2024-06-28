@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_20_190804) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_28_165706) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -69,6 +69,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_20_190804) do
     t.integer "inventory_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_paid"
+    t.string "payment_method"
+  end
+
+  create_table "booking_histories_services", id: false, force: :cascade do |t|
+    t.bigint "booking_history_id", null: false
+    t.bigint "service_id", null: false
+    t.index ["booking_history_id"], name: "index_booking_histories_services_on_booking_history_id"
+    t.index ["service_id"], name: "index_booking_histories_services_on_service_id"
   end
 
   create_table "booking_histories_workers", id: false, force: :cascade do |t|

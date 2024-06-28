@@ -1,6 +1,8 @@
 class Service < ApplicationRecord
   has_and_belongs_to_many :workers
-  has_many :booking_histories
+  has_and_belongs_to_many :booking_histories
+  accepts_nested_attributes_for :workers
+
   def self.ransackable_attributes(auth_object = nil)
     ["commission", "created_at", "id", "id_value", "name", "price", "updated_at", "worker_id"]
   end

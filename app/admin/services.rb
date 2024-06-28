@@ -1,5 +1,5 @@
 ActiveAdmin.register Service do
-  permit_params :name, :price, :commission, :worker_ids => []
+  permit_params :name, :price, :commission, :worker_ids => [], workers_attributes: [:name]
 
   form do |f|
     f.inputs 'Service Details' do
@@ -33,4 +33,5 @@ ActiveAdmin.register Service do
     end
     actions
   end
+
 end

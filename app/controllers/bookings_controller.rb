@@ -2,7 +2,6 @@ class BookingsController < ApplicationController
   def index
     @booking_histories = BookingHistory.where(session_id: session[:user_id]).includes(:service, :inventory)
     @unique_phone_numbers = @booking_histories.map(&:phone_number).compact.uniq
-    @total_pay = @booking_histories.sum { |booking_history| (booking_history.service&.price || 0) + (booking_history.inventory&.price || 0) } 
   end
 
   def new

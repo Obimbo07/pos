@@ -14,4 +14,11 @@
     <%= service.commission %>
   </p>
 
+  <p>
+    <strong>Worker:</strong>
+    <% service.workers.each do |worker| %>
+      <%= worker.name %>
+    <% end %>
+  </p>
+ 
 </div>
