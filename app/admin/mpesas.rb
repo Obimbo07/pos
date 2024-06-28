@@ -5,7 +5,7 @@ ActiveAdmin.register Mpesa do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :phoneNumber, :amount, :checkoutRequestID, :merchantRequestID, :mpesaReceiptNumber
+  permit_params :phoneNumber, :amount, :checkoutRequestID, :merchantRequestID, :mpesaReceiptNumber
   #
   # or
   #

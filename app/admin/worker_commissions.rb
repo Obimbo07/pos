@@ -5,7 +5,7 @@ ActiveAdmin.register WorkerCommission do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :worker_id, :booking_history_id, :commission, :timestamp
+  permit_params :worker_id, :booking_history_id, :commission, :timestamp
   #
   # or
   #
