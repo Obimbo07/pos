@@ -22,6 +22,5 @@ Rails.application.routes.draw do
   post 'pay', to: 'mpesas#pay'
   get "up" => "rails/health#show", as: :rails_health_check
   get "home" => "home#index"
-  get "home/admin" => "home#show"
   get "worker" => "worker_dashboard#index"
 end

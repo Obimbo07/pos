@@ -24,8 +24,7 @@ class BookingHistory < ApplicationRecord
         end
       end
     end
-    
-  
+
     def calculate_commission(service_price, commission_rate)
       (service_price * commission_rate / 100.0).round(2)
     end
