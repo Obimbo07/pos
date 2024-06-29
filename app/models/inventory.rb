@@ -1,4 +1,5 @@
 class Inventory < ApplicationRecord
+  has_and_belongs_to_many :booking_histories
     def self.ransackable_attributes(auth_object = nil)
       ["bought", "created_at", "id", "id_value", "in_stock", "name", "price", "supplied", "supplier_name", "updated_at"]
     end

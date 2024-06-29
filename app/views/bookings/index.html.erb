@@ -11,18 +11,20 @@
     <button id="pay-button" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">Pay</button>
   </div>
   <% @booking_histories.each do |booking_history| %>
-    <% if booking_history.service %>
-      <div class="bg-white p-6 w-1/2 rounded-lg shadow-lg mb-4">
-        <h2 class="text-2xl font-bold mb-2"><%= booking_history.service.name %></h2>
-        <p class="text-gray-700 mb-4"><%= (booking_history.service.price) %></p>
-      </div>
-    <% elsif booking_history.inventory %>
-      <div class="bg-white p-6 w-1/2 rounded-lg shadow-lg mb-4">
-        <h2 class="text-2xl font-bold mb-2"><%= booking_history.inventory.name %></h2>
-        <p class="text-gray-700 mb-4"><%= (booking_history.inventory.price) %></p>
-      </div>
-    <% end %>
+  <% booking_history.services.each do |service| %>
+    <div class="bg-white p-6 w-1/2 rounded-lg shadow-lg mb-4">
+      <h2 class="text-2xl font-bold mb-2"><%= service.name %></h2>
+      <p class="text-gray-700 mb-4"><%= service.price %></p>
+    </div>
   <% end %>
+
+  <% booking_history.inventories.each do |inventory| %>
+    <div class="bg-white p-6 w-1/2 rounded-lg shadow-lg mb-4">
+      <h2 class="text-2xl font-bold mb-2"><%= inventory.name %></h2>
+      <p class="text-gray-700 mb-4"><%= inventory.price %></p>
+    </div>
+  <% end %>
+<% end %>
 </div>
 
 <div id="paymentModal" class="modal hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">

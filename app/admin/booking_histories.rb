@@ -1,14 +1,16 @@
 ActiveAdmin.register BookingHistory do
-  permit_params :user_name, :phone_number, :service_id, :session_id, :inventory_id, worker_ids: []
+  permit_params :user_name, :phone_number, :session_id, :is_paid, :payment_method, service_ids: [], inventory_ids: [], worker_ids: []
 
   form do |f|
     f.inputs 'Booking History Details' do
       f.input :user_name
       f.input :phone_number
-      f.input :service_id, as: :select, collection: Service.all
+      f.input :service_ids, as: :check_boxes, collection: Service.all
       f.input :session_id
-      f.input :inventory_id, as: :select, collection: Inventory.all
-      f.input :workers, as: :check_boxes, collection: Worker.all
+      f.input :inventory_ids, as: :check_boxes, collection: Inventory.all
+      f.input :worker_ids, as: :check_boxes, collection: Worker.all
+      f.input :is_paid
+      f.input :payment_method
     end
     f.actions
   end
@@ -18,22 +20,26 @@ ActiveAdmin.register BookingHistory do
     id_column
     column :user_name
     column :phone_number
-    column :service_id
+    column :is_paid
+    column :payment_method
     column :session_id
-    column :inventory_id
     column :workers do |booking_history|
       booking_history.workers.map(&:name).join(', ')
     end
     column :service do |booking_history|
-      booking_history.service&.name
+      booking_history.services.each do |service|
+        service&.name
+      end
     end
     column :inventory do |booking_history|
-      booking_history.inventory&.name
+      booking_history.inventories.each do |inventory|
+        inventory&.name
+      end
     end
-    column :commissions do |booking_history|
-      puts booking_history.worker_commissions.inspect
-      booking_history.worker_commissions.map { |wc| "#{wc.worker.name}: #{wc.commission} (#{wc.timestamp})" }.join(', ')
-    end
+    # column :commissions do |booking_history|
+    #   puts booking_history.worker_commissions.inspect
+    #   booking_history.worker_commissions.map { |wc| "#{wc.worker.name}: #{wc.commission} (#{wc.timestamp})" }.join(', ')
+    # end
     actions
   end
 
@@ -41,11 +47,23 @@ ActiveAdmin.register BookingHistory do
     attributes_table do
       row :user_name
       row :phone_number
-      row :service_id
+      row :is_paid
+      row :payment_method
       row :session_id
-      row :inventory_id
       row :workers do |booking_history|
-        booking_history.workers.map(&:name).join(', ')
+        booking_history.workers.each do |worker|
+          worker&.name
+        end
+      end
+      row :service do |booking_history|
+        booking_history.services.each do |service|
+          service&.name
+        end
+      end
+      row :inventory do |booking_history|
+        booking_history.inventories.each do |inventory|
+          inventory&.name
+        end
       end
       row :commissions do |booking_history|
         booking_history.worker_commissions.map { |wc| "#{wc.worker.name}: #{wc.commission} (#{wc.timestamp})" }.join(', ')
