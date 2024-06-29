@@ -31,6 +31,15 @@ ActiveAdmin.register_page "Dashboard" do
           end
         end
       end
+
+      column do
+        panel "Payments" do
+          div do
+            pie_chart BookingHistory.group(:payment_method).count
+          end
+        end
+      end
+
     end
   end
 end
