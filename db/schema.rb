@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_28_191401) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_28_221444) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -64,13 +64,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_28_191401) do
   create_table "booking_histories", force: :cascade do |t|
     t.string "user_name"
     t.string "phone_number"
-    t.integer "service_id"
     t.string "session_id"
-    t.integer "inventory_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_paid"
     t.string "payment_method"
+  end
+
+  create_table "booking_histories_inventories", id: false, force: :cascade do |t|
+    t.bigint "booking_history_id", null: false
+    t.bigint "inventory_id", null: false
+    t.index ["booking_history_id", "inventory_id"], name: "idx_on_booking_history_id_inventory_id_0dea292020"
+    t.index ["inventory_id", "booking_history_id"], name: "idx_on_inventory_id_booking_history_id_2a0d026cc1"
+  end
+
+  create_table "booking_histories_services", id: false, force: :cascade do |t|
+    t.bigint "booking_history_id", null: false
+    t.bigint "service_id", null: false
+    t.index ["booking_history_id", "service_id"], name: "idx_on_booking_history_id_service_id_76c4d81c82"
+    t.index ["service_id", "booking_history_id"], name: "idx_on_service_id_booking_history_id_9e6c9f8e59"
   end
 
   create_table "booking_histories_workers", id: false, force: :cascade do |t|
@@ -105,7 +117,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_28_191401) do
     t.string "name"
     t.integer "price"
     t.decimal "commission"
-    t.integer "worker_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -132,7 +143,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_28_191401) do
     t.string "name"
     t.string "email"
     t.string "phone"
-    t.string "services"
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
