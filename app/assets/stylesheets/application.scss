@@ -27,9 +27,13 @@
 .modal {
 display: flex;
 }
+
+// .welcome-image {
+//     width: 32% !important;
+// }
   
-@media(min-width: 1024px){
+@media(min-width: 700px){
     .welcome-image {
-        width: 32% !important;
+        width: 28% !important;
     }
 }

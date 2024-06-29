@@ -1,8 +1,8 @@
 class BookingHistory < ApplicationRecord
-    belongs_to :service, optional: true
-    belongs_to :inventory, optional: true
-    has_many :worker_commissions
+    has_and_belongs_to_many :services, optional: true
+    has_and_belongs_to_many :inventories, optional: true
     has_and_belongs_to_many :workers
+    has_many :worker_commissions
 
     after_save :calculate_commissions
 
@@ -17,12 +17,14 @@ class BookingHistory < ApplicationRecord
     private
   
     def calculate_commissions
-      workers.each do |worker|
-        commission_amount = calculate_commission(service.price, service.commission)
-        WorkerCommission.create(worker: worker, booking_history: self, commission: commission_amount, timestamp: Time.current)
+      services.each do |service|
+        workers.where(id: service.worker_ids).each do |worker|
+          commission_amount = calculate_commission(service.price, service.commission)
+          WorkerCommission.create(worker: worker, booking_history: self, commission: commission_amount, timestamp: Time.current)
+        end
       end
     end
-  
+
     def calculate_commission(service_price, commission_rate)
       (service_price * commission_rate / 100.0).round(2)
     end
