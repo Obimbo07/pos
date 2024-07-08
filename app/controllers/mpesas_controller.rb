@@ -59,6 +59,8 @@ class MpesasController < ApplicationController
             amount: amount,
             checkoutRequestID: checkoutRequestID,
             merchantRequestID: merchantRequestID
+            mpesaReceiptNumber: mpesaReceiptNumber
+
         )
 
         MpesaQueryJob.set(wait: 1.minutes).perform_later(checkoutRequestID)

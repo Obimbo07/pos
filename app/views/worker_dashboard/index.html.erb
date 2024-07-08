@@ -38,10 +38,19 @@
           </div>
           <h2 class="text-2xl font-extrabold text-blue-600 mb-4"><%= number_to_currency(@total_commission) %></h2>
           <ul class="list-disc pl-5 space-y-2 text-gray-700 text-lg">
-            <% @worker_commissions.each do |commission| %>
-              <li><%= number_to_currency(commission.commission) %> earned on <%= commission.timestamp.strftime("%B %d, %Y") %></li>
-            <% end %>
-          </ul>
+              <% @worker_commissions.each do |commission| %>
+                <li>
+                  <div class="mb-2">
+                    <%= number_to_currency(commission.commission) %> earned on <%= commission.timestamp.strftime("%B %d, %Y") %> on the following services:
+                  </div>
+                  <ul class="list-disc pl-5 space-y-1">
+                    <% commission.booking_history.services.each do |service| %>
+                      <li class="font-bold p-2 bg-gray-100 rounded-md shadow-sm"><%= service.name %></li>
+                    <% end %>
+                  </ul>
+                </li>
+              <% end %>
+            </ul>
         </div>
       </div>
     </div>
