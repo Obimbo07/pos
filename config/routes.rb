@@ -23,4 +23,5 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   get "home" => "home#index"
   get "worker" => "worker_dashboard#index"
+  post 'request_cashout', to: 'worker_dashboard#cashout'
 end
