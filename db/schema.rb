@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_30_024237) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_04_000312) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -136,6 +136,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_30_024237) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "cashout", default: false, null: false
+    t.boolean "paid_cashout", default: false, null: false
     t.index ["booking_history_id"], name: "index_worker_commissions_on_booking_history_id"
     t.index ["worker_id"], name: "index_worker_commissions_on_worker_id"
   end

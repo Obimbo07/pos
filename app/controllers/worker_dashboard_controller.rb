@@ -24,4 +24,3 @@ class WorkerDashboardController < ApplicationController
       redirect_to worker_path
     end
   end
-  
