@@ -1,5 +1,5 @@
 ActiveAdmin.register Worker do
-  permit_params :name, :email, :phone, :password, :password_confirmation, service_ids: []
+  permit_params :name, :email, :phone, :earning_type, :password, :password_confirmation, service_ids: []
 
   index do
     selectable_column
@@ -7,6 +7,7 @@ ActiveAdmin.register Worker do
     column :name
     column :email
     column :phone
+    column :earning_type
     column :encrypted_password
     column :created_at
     column :updated_at
@@ -18,6 +19,7 @@ ActiveAdmin.register Worker do
       f.input :name
       f.input :email
       f.input :phone
+      f.input :earning_type
       f.input :services, as: :check_boxes, collection: Service.all
       f.input :password, input_html: { id: 'worker_password' }
       f.input :password_confirmation, input_html: { id: 'worker_password_confirmation' }
@@ -36,6 +38,7 @@ ActiveAdmin.register Worker do
       row :name
       row :email
       row :phone
+      row :earning_type
       row :encrypted_password do |worker|
         span id: 'encrypted_password', style: 'font-family: monospace' do
           worker.encrypted_password
@@ -56,6 +59,7 @@ ActiveAdmin.register Worker do
   filter :name
   filter :email
   filter :phone
+  filter :earning_type
   filter :services
   filter :created_at
   filter :updated_at
