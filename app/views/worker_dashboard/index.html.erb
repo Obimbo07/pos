@@ -2,14 +2,18 @@
   <div class="max-w-4xl mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
     <div class="px-8 py-6">
       <h1 class="text-3xl font-bold mb-6">Welcome, <%= @current_worker.name %>!</h1>
-      
+
       <div class="mb-6">
         <ul class="flex border-b">
           <li class="-mb-px mr-1">
             <a href="#profile" class="bg-white inline-block py-2 px-4 text-blue-700 font-semibold hover:text-blue-800 border-b-2 border-blue-500">My Profile</a>
           </li>
+          
           <li class="mr-1">
             <a href="#commissions" class="bg-white inline-block py-2 px-4 text-gray-500 font-semibold hover:text-blue-800">View Commissions</a>
+          </li>
+          <li class="mr-1">
+            <a href="#paid-commissions" class="bg-white inline-block py-2 px-4 text-gray-500 font-semibold hover:text-blue-800">Cashed-out</a>
           </li>
         </ul>
       </div>
@@ -30,6 +34,8 @@
         </div>
       </div>
 
+      
+
       <div id="commissions" class="tab-content hidden">
         <div class="mb-6">
           <h2 class="text-2xl font-semibold text-gray-900 mb-4">Commission Earned:</h2>
@@ -38,24 +44,65 @@
           </div>
           <h2 class="text-2xl font-extrabold text-blue-600 mb-4"><%= number_to_currency(@total_commission) %></h2>
           <ul class="list-disc pl-5 space-y-2 text-gray-700 text-lg">
-            <% @worker_commissions.each do |commission| %>
-              <li><%= number_to_currency(commission.commission) %> earned on <%= commission.timestamp.strftime("%B %d, %Y") %></li>
-            <% end %>
-          </ul>
+              <% @worker_commissions.each do |commission| %>
+                <li>
+                  <div class="mb-2">
+                    <%= number_to_currency(commission.commission) %> earned on <%= commission.timestamp.strftime("%B %d, %Y") %> on the following services:
+                  </div>
+                  <ul class="list-disc pl-5 space-y-1">
+                    <% commission.booking_history.services.each do |service| %>
+                      <li class="font-bold p-2 bg-gray-100 rounded-md shadow-sm"><%= service.name %></li>
+                    <% end %>
+                  </ul>
+                </li>
+              <% end %>
+            </ul>
         </div>
       </div>
+
+      <div id="paid-commissions" class="tab-content">
+        <div class="mb-6">
+          <h5>List of Cashed-out commissions</h5>
+          <ul class="list-disc pl-5 space-y-2 text-gray-700 text-lg">
+           <% @paid_commissions.each do |paid| %>
+                <li>
+                  <div class="mb-2">
+                    <%= number_to_currency(paid.commission) %> earned on <%= paid.timestamp.strftime("%B %d, %Y") %> on the following services:
+                  </div>
+                  <ul class="list-disc pl-5 space-y-1">
+                    <% paid.booking_history.services.each do |service| %>
+                      <li class="font-bold p-2 bg-gray-100 rounded-md shadow-sm"><%= service.name %></li>
+                    <% end %>
+                  </ul>
+                </li>
+              <% end %>
+          </ul>
+        </div>
+
+      </div>
+
     </div>
   </div>
 </div>
 
 
+
+
 <div id="cashout-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
   <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6">
-    <h5 class="text-xl font-bold mb-4">Enter the amount you wish to cash out</h5>
-    <%= form_with url: home_path, method: :post, local: true do |f| %>
+    <h5 class="text-xl font-bold mb-4">Enter the commissions you wish to cash out</h5>
+    <%= form_with url: request_cashout_path, method: :post, local: true, data: { turbo: false } do |f| %>
       <div class="mb-4">
-        <%= f.label :amount, "Amount", class: "block text-gray-700 font-bold mb-2" %>
-        <%= f.text_field :amount, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        <%= f.label :worker_commissions, "Worker", class: "block text-gray-700 font-bold mb-2" %>
+        <% @worker_commissions.each do |commission| %>
+          <div class="flex items-center mb-2">
+            <%= check_box_tag "worker[commission_id][]", commission.id, false, id: "worker_worker_commission_ids_#{commission.id}", class: "form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out commission-checkbox", data: { commission: commission.commission } %>
+            <%= label_tag "worker_commission_ids_#{commission.id}", number_to_currency(commission.commission), class: "ml-2 text-sm text-gray-700" %>
+          </div>
+        <% end %>
+      </div>
+      <div class="mb-4">
+        <p class="text-lg">Total selected: <span id="total-commission">0.00</span></p>
       </div>
       <div class="flex justify-end">
         <button type="button" id="cancel-button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">Cancel</button>
@@ -85,5 +132,22 @@
 
   document.getElementById('cancel-button').addEventListener('click', () => {
     document.getElementById('cashout-modal').classList.add('hidden');
+  });
+
+  const checkboxes = document.querySelectorAll('.commission-checkbox');
+  const totalCommissionElement = document.getElementById('total-commission');
+
+  function updateTotalCommission() {
+    let total = 0;
+    checkboxes.forEach((checkbox) => {
+      if (checkbox.checked) {
+        total += parseFloat(checkbox.dataset.commission);
+      }
+    });
+    totalCommissionElement.textContent = total.toFixed(2);
+  }
+
+  checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener('change', updateTotalCommission);
   });
 </script>
